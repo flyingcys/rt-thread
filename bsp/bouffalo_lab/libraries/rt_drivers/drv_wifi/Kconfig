@@ -1,0 +1,4 @@
+    config BSP_USING_WIFI
+        bool "Enable WiFi"
+        select PKG_USING_FREERTOS_WRAPPER
+        default n

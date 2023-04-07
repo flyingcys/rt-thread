@@ -160,6 +160,8 @@
 
 /* Micrium: Micrium software products porting for RT-Thread */
 
+#define PKG_USING_FREERTOS_WRAPPER
+#define PKG_USING_FREERTOS_WRAPPER_LATEST_VERSION
 
 /* peripheral libraries and drivers */
 
@@ -237,5 +239,6 @@
 #define BSP_USING_UART1
 #define UART1_TX_USING_GPIO16
 #define UART1_RX_USING_GPIO17
+#define BSP_USING_WIFI
 
 #endif

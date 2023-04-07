@@ -1,0 +1,28 @@
+from building import *
+
+cwd     = GetCurrentDir()
+src     = []
+CPPPATH = [cwd]
+
+src     += Split("""
+    wifi_port.c
+    package/rfparam/Src/rfparam_adapter.c
+    package/wireless/wifi6/bl6_os_adapter/src/rtos_al.c
+    package/wireless/wifi6/bl6_os_adapter/src/platform_bouffalo_sdk.c
+    package/getopt/utils_getopt.c
+""")
+CPPPATH += [cwd + r'/package/rfparam/Inc']
+CPPPATH += [cwd + r'/package/rf/inc']
+CPPPATH += [cwd + r'/package/wireless/wifi6/inc',
+            cwd + r'/package/wireless/wifi6/bl6_os_adapter/include']
+CPPPATH += [cwd + r'/package/getopt']
+
+libs = ['libwifi6', 'librf']
+libpath = [cwd + r'/package/wireless/wifi6/lib',
+           cwd + r'/package/rf/lib']
+
+LOCAL_CFLAGS = ' -DBOUFFALO_SDK'
+
+group = DefineGroup('wifi', src, depend = [''], CPPPATH = CPPPATH, LIBS = libs, LIBPATH = libpath, LOCAL_CFLAGS = LOCAL_CFLAGS)
+
+Return('group')

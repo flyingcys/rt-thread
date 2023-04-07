@@ -157,6 +157,8 @@ menu "General Drivers Configuration"
                 bool "Enable PWM3"
                 default n
         endif
+        
+source "$BSP_DIR/$LIBRARIES_DIR/rt_drivers/drv_wifi/Kconfig"
 
 endmenu
 
