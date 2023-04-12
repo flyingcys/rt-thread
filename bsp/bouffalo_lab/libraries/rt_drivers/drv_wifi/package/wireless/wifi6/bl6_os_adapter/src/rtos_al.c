@@ -110,6 +110,8 @@ void rtos_heap_info(int *total_size, int *free_size, int *min_free_size)
     // *total_size = info.total_size;
     // *free_size = info.free_size;
     // *min_free_size =info.max_free_size ;
+	
+    rt_kprintf("%s %n\n", __FUNCTION__, __LINE__);
 }
 
 int rtos_task_create(rtos_task_fct func,
