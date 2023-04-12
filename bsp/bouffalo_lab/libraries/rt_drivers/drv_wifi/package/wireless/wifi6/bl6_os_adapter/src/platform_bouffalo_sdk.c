@@ -87,7 +87,9 @@ void platform_post_event(int catalogue, int code, ...)
 {
     BaseType_t xReturn;
 
-    xReturn = xTimerPendFunctionCall(async_event_handler, NULL, code, portMAX_DELAY);
+    // xReturn = xTimerPendFunctionCall(async_event_handler, NULL, code, portMAX_DELAY);
+    rt_kprintf("%s %n\n", __FUNCTION__, __LINE__);
+    
     configASSERT(xReturn == pdPASS);
 }
 

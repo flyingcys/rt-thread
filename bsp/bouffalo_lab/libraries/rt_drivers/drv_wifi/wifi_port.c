@@ -115,7 +115,7 @@ int wifi_init(void)
 
     return 0;
 }
-
+MSH_CMD_EXPORT(wifi_init, wifi init);
 
 int putstring(const char* c)
 {

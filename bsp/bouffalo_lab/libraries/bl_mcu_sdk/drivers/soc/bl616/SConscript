@@ -47,6 +47,12 @@ else:
         std/src/bl616_pds.c
     """)
 
+src += Split("""
+    std/src/bl616_mfg_efuse.c
+    std/src/bl616_mfg_flash.c
+    std/src/bl616_mfg_media.c
+""")
+
 CPPDEFINES += ['CONFIG_IRQ_NUM=80', 'BFLB_USE_HAL_DRIVER', 'BL616', 'default_interrupt_handler=SW_handler']
 LOCAL_CFLAGS = ' -DARCH_RISCV'
 group = DefineGroup('bl616', src, depend = ['BSP_USING_BL61X'], CPPPATH = CPPPATH, CPPDEFINES = CPPDEFINES, LOCAL_CFLAGS = LOCAL_CFLAGS)
