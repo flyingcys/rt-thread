@@ -202,7 +202,7 @@ CPPPATH += [cwd + r'/package/mbedtls/mbedtls/library',
             cwd + r'/package/mbedtls/mbedtls/include',
             cwd + r'/package/mbedtls/port/platform']
 
-LOCAL_CFLAGS = ' -DBOUFFALO_SDK -DRFPARAM_BL616'
+LOCAL_CFLAGS = ' -DBOUFFALO_SDK'# -DRFPARAM_BL616'
 LOCAL_CFLAGS += ' -DMBEDTLS_NET_C'
 LOCAL_CFLAGS += ' -DMBEDTLS_CONFIG_FILE="<mbedtls_sample_config.h>"'
 
