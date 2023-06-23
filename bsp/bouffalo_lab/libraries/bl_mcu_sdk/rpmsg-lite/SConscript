@@ -1,0 +1,19 @@
+from building import *
+
+cwd     = GetCurrentDir()
+src = []
+CPPPATH = [cwd]
+
+src += Glob('lib/common/*.c')
+src += Glob('lib/rpmsg_lite/*.c')
+src += Glob('lib/virtio/*.c')
+src += ['lib/rpmsg_lite/porting/environment/rpmsg_env_rt-thread.c']
+src += ['lib/rpmsg_lite/porting/platform/bl808/rpmsg_platform.c']
+
+CPPPATH += [cwd + r'/lib/include',
+        cwd + r'/lib/include/environment/rt-thread',
+        cwd + r'/lib/include/platform/bl808']
+
+group = DefineGroup('rpmsg-lite', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')
