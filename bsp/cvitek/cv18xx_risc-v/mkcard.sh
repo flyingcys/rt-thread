@@ -13,6 +13,11 @@ if [[ -z "${UDISK}" ]]; then
 	UDISK=/home/u/ws/u-disk
 fi
 
+if [[ -z "${BOARD}" ]]; then
+        BOARD=duo256m
+fi
+
+
 ROOT=`pwd`
 
 sudo umount $UDISK
@@ -27,7 +32,7 @@ sudo rm $UDISK/boot.sd
 echo "Removing Done!"
 
 echo "Copying to sd-card ......"
-sudo cp $ROOT/../output/milkv-duo/boot.sd $UDISK
+sudo cp $ROOT/../output/milkv-$BOARD/boot.sd $UDISK
 echo "Copying Done!"
 
 sudo umount $UDISK
