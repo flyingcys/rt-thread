@@ -46,20 +46,36 @@ config __STACKSIZE__
     int "stack size for interrupt"
     default 4096
 
+config BSP_USING_CV180X
+    bool
+    default n
+
+config BSP_USING_CV181X_QFN
+    bool
+    default n
+
+config BSP_USING_CV181X_BGA
+    bool
+    default n
+
 choice
     prompt "Board Type"
     default BOARD_TYPE_MILKV_DUO256M
 
     config BOARD_TYPE_MILKV_DUO
+        select BSP_USING_CV180X
         bool "milkv-duo"
 
     config BOARD_TYPE_MILKV_DUO_SPINOR
+        select BSP_USING_CV180X
         bool "milkv-duo-spinor"
 
     config BOARD_TYPE_MILKV_DUO256M
+        select BSP_USING_CV181X_QFN
         bool "milkv-duo256m"
 
     config BOARD_TYPE_MILKV_DUO256M_SPINOR
+        select BSP_USING_CV181X_QFN
         bool "milkv-duo256m-spinor"
         
 endchoice
