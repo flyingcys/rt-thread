@@ -29,11 +29,229 @@ menu "General Drivers Configuration"
         if BSP_USING_I2C
             config BSP_USING_I2C0
                 bool "Enable I2C0"
+                depends on BSP_USING_CV180X
                 default n
+
+                if BSP_USING_I2C0
+                    choice 
+                        prompt "I2C0 SCL"
+                        default I2C0_SCL_USING_IIC0_SCL
+
+                        config I2C0_SCL_USING_IIC0_SCL
+                            bool "IIC0_SCL"
+                        config I2C0_SCL_USING_PAD_MIPIRX4N
+                            bool "PAD_MIPIRX4N"
+                    endchoice
+
+                    choice
+                        prompt "I2C0 SDA"
+                        default I2C0_SDA_USING_IIC0_SDA
+
+                        config I2C0_SDA_USING_IIC0_SDA
+                            bool "IIC0_SDA"
+                        config I2C0_SDA_USING_PAD_MIPIRX4P
+                            bool "PAD_MIPIRX4P"
+                    endchoice
+                endif
 
             config BSP_USING_I2C1
                 bool "Enable I2C1"
                 default n
+                if BSP_USING_I2C1
+                    choice 
+                        prompt "I2C1 SCL"
+                        default I2C1_SCL_USING_PAD_MIPIRX0N
+
+                        config I2C1_SCL_USING_PAD_MIPIRX4P
+                            bool "PAD_MIPIRX4P"
+                        config I2C1_SCL_USING_PAD_MIPIRX0N
+                            bool "PAD_MIPIRX0N"
+                        config I2C1_SCL_USING_SD1_D3
+                            bool "SD1_D3"
+                        config I2C1_SCL_USING_MUX_SPI1_MOSI
+                            bool "MUX_SPI1_MOSI"
+                        config I2C1_SCL_USING_PAD_ETH_TXP
+                            bool "PAD_ETH_TXP"
+                        config I2C1_SCL_USING_SD0_CMD
+                            bool "SD0_CMD"
+                        config I2C1_SCL_USING_SD0_D2
+                            bool "SD0_D2"
+                        config I2C1_SCL_USING_SD1_D2
+                            bool "SD1_D2"
+
+                        config I2C1_SCL_USING_PAD_MIPI_TXP2
+                            depends on BSP_USING_CV181X_QFN || BSP_USING_CV181X_BGA
+                            bool "PAD_MIPI_TXP2"
+
+                        if BSP_USING_CV181X_BGA
+                            config I2C1_SCL_USING_VIVO_D9
+                                bool "VIVO_D9"                        
+                            config I2C1_SCL_USING_VIVO_D3
+                                bool "VIVO_D3"          
+                        endif
+
+                    endchoice
+
+                    choice
+                        prompt "I2C1 SDA"
+                        default I2C1_SDA_USING_PAD_MIPIRX1P
+
+                        config I2C1_SDA_USING_PAD_MIPIRX4N
+                            bool "PAD_MIPIRX4N"
+                        config I2C1_SDA_USING_PAD_MIPIRX1P
+                            bool "PAD_MIPIRX1P"
+                        config I2C1_SDA_USING_SD1_D0
+                            bool "SD1_D0"
+                        config I2C1_SDA_USING_MUX_SPI1_MISO
+                            bool "MUX_SPI1_MISO"
+                        config I2C1_SDA_USING_PAD_ETH_TXM
+                            bool "PAD_ETH_TXM"
+                        config I2C1_SDA_USING_SD0_CLK
+                            bool "SD0_CLK"
+                        config I2C1_SDA_USING_SD0_D1
+                            bool "SD0_D1"
+                        config I2C1_SDA_USING_SD1_D1
+                            bool "SD1_D1"
+                        
+                        config I2C1_SDA_USING_PAD_MIPI_TXM2
+                            depends on BSP_USING_CV181X_QFN || BSP_USING_CV181X_BGA
+                            bool "PAD_MIPI_TXM2"
+
+                        if BSP_USING_CV181X_BGA
+                            config I2C1_SDA_USING_VIVO_D10
+                                bool "VIVO_D10"                        
+                            config I2C1_SDA_USING_VIVO_D4
+                                bool "VIVO_D4"          
+                        endif
+                    endchoice
+                endif
+
+            config BSP_USING_I2C2
+                bool "Enable I2C2"
+                depends on BSP_USING_CV181X_QFN || BSP_USING_CV181X_BGA
+                default n             
+                if BSP_USING_I2C2
+                    choice 
+                        prompt "I2C2 SCL"
+                        default I2C2_SCL_USING_PAD_MIPI_TXP1
+
+                        config I2C2_SCL_USING_PAD_MIPI_TXP1
+                            bool "PAD_MIPI_TXP1"
+                        config I2C2_SCL_USING_PWR_GPIO1
+                            bool "PWR_GPIO1"
+
+                        if BSP_USING_CV181X_BGA
+                            config I2C2_SCL_USING_IIC2_SCL
+                                bool "IIC2_SCL"
+                            config I2C2_SCL_USING_PAD_MIPI_TXP3
+                                bool "PAD_MIPI_TXP3"
+                            config I2C2_SCL_USING_VIVO_D8
+                                bool "VIVO_D8"
+                        endif
+                    endchoice
+
+                    choice
+                        prompt "I2C2 SDA"
+                        default I2C2_SDA_USING_PAD_MIPI_TXM1
+
+                        config I2C2_SDA_USING_PAD_MIPI_TXM1
+                            bool "PAD_MIPI_TXM1"
+                        config I2C2_SDA_USING_PWR_GPIO2
+                            bool "PWR_GPIO2"
+
+                        if BSP_USING_CV181X_BGA
+                            config I2C2_SDA_USING_IIC2_SDA
+                                bool "IIC2_SDA"
+                            config I2C2_SDA_USING_PAD_MIPI_TXM3
+                                bool "PAD_MIPI_TXM3"
+                            config I2C2_SDA_USING_VIVO_D7
+                                bool "VIVO_D7"
+                        endif
+                    endchoice
+                endif
+
+            config BSP_USING_I2C3
+                bool "Enable I2C3"
+                default n
+                if BSP_USING_I2C3
+                    choice 
+                        prompt "I2C3 SCL"
+                        default I2C3_SCL_USING_SD1_CMD
+
+                        config I2C3_SCL_USING_SD1_CMD
+                            bool "SD1_CMD"
+                        if BSP_USING_CV181X_BGA
+                            config I2C3_SCL_USING_VIVO_D0
+                                bool "VIVO_D0"
+                            config I2C3_SCL_USING_IIC3_SCL
+                                bool "IIC3_SCL"
+                        endif
+                    endchoice
+
+                    choice
+                        prompt "I2C3 SDA"
+                        default I2C3_SDA_USING_SD1_CLK
+
+                        config I2C3_SDA_USING_SD1_CLK
+                            bool "SD1_CLK"
+                        if BSP_USING_CV181X_BGA
+                            config I2C3_SDA_USING_VIVO_D1
+                                bool "VIVO_D1"
+                            config I2C3_SDA_USING_IIC3_SDA
+                                bool "IIC3_SDA"
+                        endif
+                    endchoice
+                endif
+
+            config BSP_USING_I2C4
+                bool "Enable I2C4"
+                default n
+                if BSP_USING_I2C4
+                    choice 
+                        prompt "I2C4 SCL"
+                        default I2C4_SCL_USING_PAD_MIPIRX2N
+
+                        config I2C4_SCL_USING_PAD_MIPIRX2N
+                            bool "PAD_MIPIRX2N"
+                        config I2C4_SCL_USING_PWR_WAKEUP0
+                            depends on BSP_USING_CV181X_QFN || BSP_USING_CV181X_BGA
+                            bool "PWR_WAKEUP0"
+
+                        if BSP_USING_CV181X_BGA
+                            config I2C4_SCL_USING_ADC3
+                                bool "ADC3"
+                            config I2C4_SCL_USING_CAM_RST0
+                                bool "CAM_RST0"
+                            config I2C4_SCL_USING_PWR_WAKEUP1
+                                bool "PWR_WAKEUP1"
+                            config I2C4_SCL_USING_VIVO_D1
+                                bool "VIVO_D1"
+                        endif
+
+                    endchoice
+
+                    choice
+                        prompt "I2C4 SDA"
+                        default I2C4_SDA_USING_PAD_MIPIRX2P
+
+                        config I2C4_SDA_USING_PAD_MIPIRX2P
+                            bool "PAD_MIPIRX2P"
+                        config I2C4_SDA_USING_PWR_BUTTON1
+                            depends on BSP_USING_CV181X_QFN || BSP_USING_CV181X_BGA
+                            bool "PWR_BUTTON1"
+
+                        if BSP_USING_CV181X_BGA
+                            config I2C4_SDA_USING_ADC2
+                                bool "ADC2"
+                            config I2C4_SDA_USING_CAM_PD1
+                                bool "CAM_PD1"
+                            config I2C4_SDA_USING_PWR_ON
+                                bool "PWR_ON"
+                            config I2C4_SDA_USING_VIVO_D0
+                                bool "VIVO_D0"
+                        endif
+                        endchoice
+                endif
 
             config I2C_IRQ_BASE
             int
