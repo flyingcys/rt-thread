@@ -10,6 +10,7 @@
 #include "drv_hw_i2c.h"
 #include <rtdevice.h>
 #include <board.h>
+#include "drv_pinmux.h"
 
 #define DBG_TAG              "drv.i2c"
 #define DBG_LVL               DBG_INFO
@@ -467,19 +468,149 @@ static const struct rt_i2c_bus_device_ops i2c_ops =
     .i2c_bus_control  = RT_NULL
 };
 
+
+#if defined(BOARD_TYPE_MILKV_DUO) || defined(BOARD_TYPE_MILKV_DUO_SPINOR)
+const char *i2c_pinname_whitelist_i2c0_scl[] = {
+    "IIC0_SCL",
+    NULL,
+};
+const char *i2c_pinname_whitelist_i2c0_sda[] = {
+    "IIC0_SDA",
+    NULL,
+};
+
+const char *i2c_pinname_whitelist_i2c1_scl[] = {
+    "SD1_D2",
+    "SD1_D3",
+    "PAD_MIPIRX0N",
+    NULL,
+};
+const char *i2c_pinname_whitelist_i2c1_sda[] = {
+    "SD1_D1",
+    "SD1_D0",
+    "PAD_MIPIRX1P",
+    NULL,
+};
+
+// I2C2 is not ALLOWED for Duo
+const char *i2c_pinname_whitelist_i2c2_scl[] = {
+    NULL,
+};
+const char *i2c_pinname_whitelist_i2c2_sda[] = {
+    NULL,
+};
+
+const char *i2c_pinname_whitelist_i2c3_scl[] = {
+    "SD1_CMD",
+    NULL,
+};
+const char *i2c_pinname_whitelist_i2c3_sda[] = {
+    "SD1_CLK",
+    NULL,
+};
+
+// I2C4 is not ALLOWED for Duo
+const char *i2c_pinname_whitelist_i2c4_scl[] = {
+    NULL,
+};
+const char *i2c_pinname_whitelist_i2c4_sda[] = {
+    NULL,
+};
+
+#elif defined(BOARD_TYPE_MILKV_DUO256M) || defined(BOARD_TYPE_MILKV_DUO256M_SPINOR)
+
+// I2C0 is not ALLOWED for Duo
+const char *i2c_pinname_whitelist_i2c0_scl[] = {
+    NULL,
+};
+const char *i2c_pinname_whitelist_i2c0_sda[] = {
+    NULL,
+};
+
+const char *i2c_pinname_whitelist_i2c1_scl[] = {
+    "SD1_D2",
+    "SD1_D3",
+    NULL,
+};
+const char *i2c_pinname_whitelist_i2c1_sda[] = {
+    "SD1_D1",
+    "SD1_D0",
+    NULL,
+};
+
+const char *i2c_pinname_whitelist_i2c2_scl[] = {
+    "PAD_MIPI_TXP1",
+    NULL,
+};
+const char *i2c_pinname_whitelist_i2c2_sda[] = {
+    "PAD_MIPI_TXM1",
+    NULL,
+};
+
+const char *i2c_pinname_whitelist_i2c3_scl[] = {
+    "SD1_CMD",
+    NULL,
+};
+const char *i2c_pinname_whitelist_i2c3_sda[] = {
+    "SD1_CLK",
+    NULL,
+};
+
+// I2C4 is not ALLOWED for Duo
+const char *i2c_pinname_whitelist_i2c4_scl[] = {
+    NULL,
+};
+const char *i2c_pinname_whitelist_i2c4_sda[] = {
+    NULL,
+};
+
+#else
+    #error "Unsupported board type!"
+#endif
+
+static void rt_hw_i2c_pinmux_config()
+{
+#ifdef BSP_USING_I2C0
+    LOG_I("I2C0 SCL Pin Name = \"%s\"", BSP_I2C0_SCL_PINNAME);
+    LOG_I("I2C0 SDA Pin Name = \"%s\"", BSP_I2C0_SDA_PINNAME);
+    pinmux_config(BSP_I2C0_SCL_PINNAME, IIC0_SCL, i2c_pinname_whitelist_i2c0_scl);
+    pinmux_config(BSP_I2C0_SDA_PINNAME, IIC0_SDA, i2c_pinname_whitelist_i2c0_sda);
+#endif /* BSP_USING_I2C0 */
+
+#ifdef BSP_USING_I2C1
+    LOG_I("I2C1 SCL Pin Name = \"%s\"", BSP_I2C1_SCL_PINNAME);
+    LOG_I("I2C1 SDA Pin Name = \"%s\"", BSP_I2C1_SDA_PINNAME);
+    pinmux_config(BSP_I2C1_SCL_PINNAME, IIC1_SCL, i2c_pinname_whitelist_i2c1_scl);
+    pinmux_config(BSP_I2C1_SDA_PINNAME, IIC1_SDA, i2c_pinname_whitelist_i2c1_sda);
+#endif /* BSP_USING_I2C1 */
+
+#ifdef BSP_USING_I2C2
+    LOG_I("I2C2 SCL Pin Name = \"%s\"", BSP_I2C2_SCL_PINNAME);
+    LOG_I("I2C2 SDA Pin Name = \"%s\"", BSP_I2C2_SDA_PINNAME);
+    pinmux_config(BSP_I2C2_SCL_PINNAME, IIC2_SCL, i2c_pinname_whitelist_i2c2_scl);
+    pinmux_config(BSP_I2C2_SDA_PINNAME, IIC2_SDA, i2c_pinname_whitelist_i2c2_sda);
+#endif /* BSP_USING_I2C2 */
+
+#ifdef BSP_USING_I2C3
+    LOG_I("I2C3 SCL Pin Name = \"%s\"", BSP_I2C3_SCL_PINNAME);
+    LOG_I("I2C3 SDA Pin Name = \"%s\"", BSP_I2C3_SDA_PINNAME);
+    pinmux_config(BSP_I2C3_SCL_PINNAME, IIC3_SCL, i2c_pinname_whitelist_i2c3_scl);
+    pinmux_config(BSP_I2C3_SDA_PINNAME, IIC3_SDA, i2c_pinname_whitelist_i2c3_sda);
+#endif /* BSP_USING_I2C3 */
+
+#ifdef BSP_USING_I2C4
+    LOG_I("I2C4 SCL Pin Name = \"%s\"", BSP_I2C4_SCL_PINNAME);
+    LOG_I("I2C4 SDA Pin Name = \"%s\"", BSP_I2C4_SDA_PINNAME);
+    pinmux_config(BSP_I2C4_SCL_PINNAME, IIC4_SCL, i2c_pinname_whitelist_i2c4_scl);
+    pinmux_config(BSP_I2C4_SDA_PINNAME, IIC4_SDA, i2c_pinname_whitelist_i2c4_sda);
+#endif /* BSP_USING_I2C4 */
+}
+
 int rt_hw_i2c_init(void)
 {
     int result = RT_EOK;
 
-#ifdef BSP_USING_I2C0
-    PINMUX_CONFIG(IIC0_SCL, IIC0_SCL);
-    PINMUX_CONFIG(IIC0_SDA, IIC0_SDA);
-#endif /* BSP_USING_I2C0 */
-
-#ifdef BSP_USING_I2C1
-    PINMUX_CONFIG(PAD_MIPIRX1P, IIC1_SDA);
-    PINMUX_CONFIG(PAD_MIPIRX0N, IIC1_SCL);
-#endif /* BSP_USING_I2C1 */
+    rt_hw_i2c_pinmux_config();
 
     for (rt_size_t i = 0; i < sizeof(_i2c_obj) / sizeof(struct _i2c_bus); i++)
     {
