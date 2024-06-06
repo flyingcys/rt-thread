@@ -8,7 +8,7 @@ on:
     - cron:  '0 16 1 * *'
   push:
     branches:
-      - v5.1.x
+      - duo-v5.1.0
     paths-ignore:
       - documentation/**
       - '**/README.md'
@@ -18,7 +18,7 @@ on:
       - '**/*.cpp'
   pull_request:
     branches:
-      - v5.1.x
+      - duo-v5.1.0
     paths-ignore:
       - documentation/**
       - '**/README.md'

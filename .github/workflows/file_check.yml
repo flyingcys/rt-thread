@@ -3,7 +3,7 @@ name: Check File Format and License
 on:
   pull_request:
     branches:
-      - v5.1.x
+      - duo-v5.1.0
     paths-ignore:
       - documentation/**
       - '**/README.md'
