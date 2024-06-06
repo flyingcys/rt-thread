@@ -2,6 +2,7 @@
 CHIPNAME=$1
 BIN_FILE=$2
 
+#
 set -e
 
 SYSTEM=`uname -s`
