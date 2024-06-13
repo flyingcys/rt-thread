@@ -113,7 +113,7 @@ static rt_err_t _wdt_control(rt_watchdog_t *wdt_device, int cmd, void *arg)
         cvi_wdt_feed_en(reg_base);
         break;
     case RT_DEVICE_CTRL_WDT_SET_TIMEOUT:
-        csi_wdt_set_timeout(reg_base, *(rt_uint32_t *)arg);
+        csi_wdt_set_timeout(reg_base, *(rt_uint32_t *)arg * 1000);
         wdt_device->parent.user_data = (rt_uint32_t)(*(rt_uint32_t *)arg);
         break;
     case RT_DEVICE_CTRL_WDT_GET_TIMEOUT:
