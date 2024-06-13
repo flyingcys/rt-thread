@@ -48,9 +48,6 @@ static rt_err_t _adc_enabled(struct rt_adc_device *device, rt_int8_t channel, rt
 
         //set saradc clock cycle
         cvi_set_cyc(adc_dev->base);
-
-        //start
-        cvi_set_saradc_ctrl(adc_dev->base, SARADC_CTRL_START);
         LOG_D("enable saradc...");
     }
     else
@@ -71,6 +68,9 @@ static rt_err_t _adc_convert(struct rt_adc_device *device, rt_int8_t channel, rt
 
     if (channel > SARADC_CH_MAX)
         return -RT_EINVAL;
+
+    //start
+    cvi_set_saradc_ctrl(adc_dev->base, SARADC_CTRL_START);
 
     while (cvi_get_saradc_status(adc_dev->base) & SARADC_STATUS_BUSY)
     {
