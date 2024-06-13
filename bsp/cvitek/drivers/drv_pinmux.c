@@ -528,3 +528,33 @@ int pinmux_config(const char *pin_name, fs_type func_type, const char *whitelist
     mmio_clrsetbits_32(PINMUX_BASE + p_fmux->addr, p_fmux->mask << p_fmux->offset, select);
     return RT_EOK;
 }
+
+int pinmux_config_gpio_mode(int port, int bit)
+{
+    static fs_type gpio_group_list[] = {XGPIOA_0, XGPIOB_0, XGPIOC_0};
+    int select;
+    int func_type;
+
+    if (port >= sizeof(gpio_group_list) / sizeof(gpio_group_list[0])) {
+        LOG_E("Port[%d] is not in error", port);
+        return -RT_EINVAL;
+    }
+
+    func_type = gpio_group_list[port] + bit;
+    for (int i = 0; i < sizeof(pin_selects_array) / sizeof(pin_selects_array[0]); i++) {
+        select = pinmux_get_index(i, func_type);
+        if (select != -1) {
+            if (pinmux_array[i].selected) {
+                LOG_W("Port[%d] Bit[%d] has been selected, duplicated?", port, bit);
+                return -RT_ERROR;
+            }
+
+            pinmux_array[i].selected = 1;
+            mmio_clrsetbits_32(PINMUX_BASE + pinmux_array[i].addr, pinmux_array[i].mask << pinmux_array[i].offset, select);
+            return RT_EOK;
+        }
+    }
+
+    LOG_W("Can not found Function selection for Port[%d] Bit[%d]", port, bit);
+    return -RT_ERROR;
+}

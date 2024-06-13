@@ -17,6 +17,7 @@
 
 #ifdef RT_USING_PIN
 #include "drv_gpio.h"
+#include "drv_pinmux.h"
 
 #define GPIO_SWPORTA_DR     0x00
 #define GPIO_SWPORTA_DDR    0x04
@@ -92,6 +93,8 @@ static void dwapb_pin_mode(struct rt_device *device, rt_base_t pin, rt_uint8_t m
     bit = PIN_NO(pin);
     port = PIN_PORT(pin);
     base_addr = (port == 4 ? dwapb_gpio_base_e : (dwapb_gpio_base + DWAPB_GPIO_SIZE * port));
+
+    pinmux_config_gpio_mode(port, bit); // set gpio mode
 
     reg_val = dwapb_read32(base_addr + GPIO_SWPORTA_DDR);
     switch (mode)

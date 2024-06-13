@@ -438,4 +438,13 @@ typedef enum _fs_type
  */
 extern int pinmux_config(const char *pin_name, fs_type func_type, const char *whitelist[]);
 
+/*
+ * @port: GPIO controller port num
+ * @bit : GPIO controller bit num
+ * RETURN:
+ * - RT_EOK
+ * - else: something wrong occurred and config is abandoned.
+ */
+extern int pinmux_config_gpio_mode(int port, int bit);
+
 #endif
