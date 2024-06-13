@@ -35,6 +35,7 @@ Board Type (milkv-duo)  --->
     ( ) milkv-duo-spinor
     (X) milkv-duo256m
     ( ) milkv-duo256m-spinor
+    ( ) licheeRV-nano
 ```
 
 It will automatically download env related scripts to the ~/.env directory, then execute

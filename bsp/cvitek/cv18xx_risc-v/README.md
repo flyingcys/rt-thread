@@ -82,6 +82,7 @@ Board Type (milkv-duo)  --->
     ( ) milkv-duo-spinor
     (X) milkv-duo256m
     ( ) milkv-duo256m-spinor
+    ( ) licheeRV-nano
 ```
 
 它会自动下载env相关脚本到~/.env目录，然后执行
