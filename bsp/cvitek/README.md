@@ -35,6 +35,7 @@ Board Type (milkv-duo)  --->
     ( ) milkv-duo-spinor
     (X) milkv-duo256m
     ( ) milkv-duo256m-spinor
+    ( ) licheeRV-nano
 ```
 
 2. 编译
@@ -69,6 +70,7 @@ $ scons
 ## 支持开发板
 - milk-v duo: [https://milkv.io/duo](https://milkv.io/duo)
 - milk-v duo256m: [https://milkv.io/duo256m](https://milkv.io/docs/duo/getting-started/duo256m)
+- licheeRV nano: [https://wiki.sipeed.com/](https://en.wiki.sipeed.com/hardware/zh/lichee/RV_Nano/1_intro.html)
 
 ## FAQ
 1. 如遇到不能正常编译，请先使用 `scons --menuconfig` 重新生成配置。
