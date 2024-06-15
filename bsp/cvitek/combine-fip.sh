@@ -22,7 +22,7 @@ export BLCP_2ND_PATH=${PROJECT_PATH}/${IMAGE_NAME}
 
 pushd cvitek_bootloader
 
-. env.sh
+source $ROOT_PATH/cvitek_bootloader/env.sh
 
 get_build_board ${BOARD_TYPE}
 
