@@ -33,7 +33,7 @@ function check_bootloader()
 
 	if [ ! -d cvitek_bootloader ]; then
 	echo "cvitek_bootloader not exist, clone it from ${BOOTLOADER_URL}"
-	git clone ${BOOTLOADER_URL}
+	git clone ${BOOTLOADER_URL} --depth=1
 
 	if [ $? -ne 0 ]; then
     	echo "Failed to clone ${BOOTLOADER_URL} !"
