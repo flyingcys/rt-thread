@@ -27,7 +27,6 @@
 #define RT_KSERVICE_USING_STDLIB
 #define RT_KPRINTF_USING_LONGLONG
 #define RT_USING_DEBUG
-#define RT_DEBUGING_ASSERT
 #define RT_DEBUGING_COLOR
 #define RT_DEBUGING_CONTEXT
 
@@ -301,18 +300,13 @@
 
 /* peripheral libraries and drivers */
 
-/* HAL & SDK Drivers */
-
-/* STM32 HAL & SDK Drivers */
-
-
-/* Kendryte SDK */
-
-
 /* sensors drivers */
 
 
 /* touch drivers */
+
+
+/* Kendryte SDK */
 
 
 /* AI packages */
@@ -379,7 +373,7 @@
 #define GPIO_IRQ_BASE 60
 #define SYS_GPIO_IRQ_BASE 70
 #define __STACKSIZE__ 8192
-#define SOC_TYPE_SG2002
-#define BOARD_TYPE_MILKV_DUO256M
+#define SOC_TYPE_SG2000
+#define BOARD_TYPE_MILKV_DUOS
 
 #endif
