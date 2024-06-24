@@ -25,12 +25,10 @@ config BSP_USING_CV18XX
     select RT_USING_SYSTEM_WORKQUEUE
     select RT_USING_COMPONENTS_INIT
     select RT_USING_USER_MAIN
-    select RT_USING_CACHE
-    select ARCH_MM_MMU
     select RT_USING_DEVICE_OPS
     default y
 
-config C906_PLIC_PHY_ADDR
+config PLIC_PHY_ADDR
     hex
     default 0x70000000
 

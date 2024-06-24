@@ -2,8 +2,7 @@ import os
 
 # toolchains options
 ARCH        ='risc-v'
-VENDOR      ='t-head'
-CPU         ='c906'
+CPU         ='rv64'
 CROSS_TOOL  ='gcc'
 
 if os.getenv('RTT_ROOT'):

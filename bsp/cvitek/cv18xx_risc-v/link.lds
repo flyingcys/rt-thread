@@ -128,6 +128,7 @@ SECTIONS
 
         . += __STACKSIZE__;
         __stack_cpu1 = .;
+        __rt_rvstack = .; 
     } > SRAM
 
     . = ALIGN(8);

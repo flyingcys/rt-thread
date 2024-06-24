@@ -9,7 +9,6 @@
  * 2023/03/19     Flyingcys    Add riscv_32e support
  * 2023/08/09     HPMicro      Fix the issue t0 was modified unexpectedly before being saved
  */
-#define __ASSEMBLY__
 #include "cpuport.h"
 
     .section .text.entry, "ax"

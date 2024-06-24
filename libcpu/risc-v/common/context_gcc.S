@@ -12,7 +12,6 @@
  * 2023/03/19     Flyingcys    Add riscv_32e support
  */
 
-#define __ASSEMBLY__
 #include "cpuport.h"
 
 #ifdef RT_USING_SMP
@@ -25,7 +24,9 @@
  */
     .globl rt_hw_interrupt_disable
 rt_hw_interrupt_disable:
-    csrrci a0, mstatus, 8
+//    csrrci a0, mstatus, 8
+//    ret
+    csrrci a0, sstatus, 2   /* clear SIE */
     ret
 
 /*
@@ -33,9 +34,10 @@ rt_hw_interrupt_disable:
  */
     .globl rt_hw_interrupt_enable
 rt_hw_interrupt_enable:
-    csrw mstatus, a0
+//    csrw mstatus, a0
+//    ret
+    csrs sstatus, a0    /* restore to old csr */
     ret
-
 /*
  * #ifdef RT_USING_SMP
  * void rt_hw_context_switch_to(rt_ubase_t to, stuct rt_thread *to_thread);
@@ -48,7 +50,8 @@ rt_hw_interrupt_enable:
     .globl rt_hw_context_switch_to
 rt_hw_context_switch_to:
     la t0, __rt_rvstack
-    csrw mscratch,t0
+//    csrw mscratch,t0
+    csrw sscratch,t0
 
     LOAD sp, (a0)
 
@@ -57,7 +60,8 @@ rt_hw_context_switch_to:
     call  rt_cpus_lock_status_restore
 #endif
     LOAD a0,   2 * REGBYTES(sp)
-    csrw mstatus, a0
+//    csrw mstatus, a0
+    csrw sstatus, a0
     j    rt_hw_context_switch_exit
 
 /*
