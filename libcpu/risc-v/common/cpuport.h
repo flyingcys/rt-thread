@@ -28,6 +28,20 @@ typedef union {
 #endif
 #endif
 
+
+/* 33 general register */
+#define CTX_GENERAL_REG_NR  33
+
+#ifdef ENABLE_FPU
+/* 32 fpu register */
+#define CTX_FPU_REG_NR  32
+#else
+#define CTX_FPU_REG_NR  0
+#endif
+
+/* all context registers */
+#define CTX_REG_NR  (CTX_GENERAL_REG_NR + CTX_FPU_REG_NR)
+
 /* Preprocessor Definition */
 #if __riscv_flen == 32
 #define ARCH_RISCV_FPU

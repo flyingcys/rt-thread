@@ -13,12 +13,15 @@
  */
 
 #include "cpuport.h"
+#include "stackframe.h"
 
 #ifdef RT_USING_SMP
 #define rt_hw_interrupt_disable rt_hw_local_irq_disable
 #define rt_hw_interrupt_enable  rt_hw_local_irq_enable
 #endif
 
+
+#if 0
 /*
  * rt_base_t rt_hw_interrupt_disable(void);
  */
@@ -38,6 +41,9 @@ rt_hw_interrupt_enable:
 //    ret
     csrs sstatus, a0    /* restore to old csr */
     ret
+
+#endif
+
 /*
  * #ifdef RT_USING_SMP
  * void rt_hw_context_switch_to(rt_ubase_t to, stuct rt_thread *to_thread);
@@ -49,6 +55,7 @@ rt_hw_interrupt_enable:
  */
     .globl rt_hw_context_switch_to
 rt_hw_context_switch_to:
+#if 0
     la t0, __rt_rvstack
 //    csrw mscratch,t0
     csrw sscratch,t0
@@ -63,6 +70,20 @@ rt_hw_context_switch_to:
 //    csrw mstatus, a0
     csrw sstatus, a0
     j    rt_hw_context_switch_exit
+#endif
+
+    LOAD sp, (a0)
+
+    la s0, rt_current_thread
+    LOAD s1, (s0)
+
+    #ifdef RT_USING_SMART
+        mv a0, s1
+        jal lwp_aspace_switch
+    #endif
+
+    RESTORE_ALL
+    sret
 
 /*
  * #ifdef RT_USING_SMP
@@ -224,7 +245,8 @@ rt_hw_context_switch_exit:
 #endif
     /* resw ra to mepc */
     LOAD a0,   0 * REGBYTES(sp)
-    csrw mepc, a0
+//    csrw mepc, a0
+    csrw sepc, a0
 
     LOAD x1,   1 * REGBYTES(sp)
 #ifdef ARCH_RISCV_FPU
@@ -232,9 +254,11 @@ rt_hw_context_switch_exit:
 #else
     li    t0, 0x1800
 #endif
-    csrw  mstatus, t0
+//    csrw  mstatus, t0
+    csrw  sstatus, t0
     LOAD a0,   2 * REGBYTES(sp)
-    csrs mstatus, a0
+//    csrs mstatus, a0
+    csrs sstatus, a0
 
     LOAD x4,   4 * REGBYTES(sp)
     LOAD x5,   5 * REGBYTES(sp)
@@ -308,4 +332,5 @@ rt_hw_context_switch_exit:
     addi    sp, sp, 32 * FREGBYTES
 #endif
 
-    mret
+//    mret
+    sret

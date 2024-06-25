@@ -57,12 +57,19 @@ rt_uint8_t *rt_hw_stack_init(void       *tentry,
     frame->epc     = (rt_ubase_t)tentry;
 
     /* force to machine mode(MPP=11) and set MPIE to 1 */
-#ifdef ARCH_RISCV_FPU
-    frame->mstatus = 0x7880;
-#else
-    frame->mstatus = 0x1880;
-#endif
+// #ifdef ARCH_RISCV_FPU
+//     frame->mstatus = 0x7880;
+// #else
+//     frame->mstatus = 0x1880;
+// #endif
 
+    /* force to supervisor mode(SPP=1) and set SPIE and SUM to 1 */
+#ifdef ENABLE_FPU
+    frame->sstatus = 0x00046120;    /* enable FPU */
+#else
+    frame->sstatus = 0x00040120;
+#endif
+    rt_kprintf("============= rt_hw_stack_init =============\n");
     return stk;
 }
 

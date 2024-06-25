@@ -182,6 +182,7 @@ void rt_system_scheduler_start(void)
 
     /* switch to new thread */
 
+    rt_kprintf("============= rt_hw_context_switch_to =============\n");
     rt_hw_context_switch_to((rt_ubase_t)&to_thread->sp);
 
     /* never come back */

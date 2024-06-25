@@ -17,7 +17,8 @@ typedef struct rt_hw_stack_frame
 {
     rt_ubase_t epc;        /* epc - epc    - program counter                     */
     rt_ubase_t ra;         /* x1  - ra     - return address for jumps            */
-    rt_ubase_t mstatus;    /*              - machine status register             */
+    // rt_ubase_t mstatus;    /*              - machine status register             */
+    rt_ubase_t sstatus;    /*              - machine status register             */
     rt_ubase_t gp;         /* x3  - gp     - global pointer                      */
     rt_ubase_t tp;         /* x4  - tp     - thread pointer                      */
     rt_ubase_t t0;         /* x5  - t0     - temporary register 0                */

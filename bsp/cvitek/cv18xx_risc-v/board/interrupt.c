@@ -196,5 +196,6 @@ void rt_hw_irq_isr(void)
     mmio_write_32(PLIC_CLAIM, irq);
 
     // clear external interrupt pending
-    clear_csr(mip, MIP_MEIP);
+    // clear_csr(mip, MIP_MEIP);
+    set_csr(sie, SIE_SEIE);
 }
