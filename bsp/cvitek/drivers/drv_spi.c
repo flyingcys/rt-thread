@@ -290,6 +290,76 @@ static const char *pinname_whitelist_spi3_cs[] = {
 };
 #endif
 
+#elif defined(BOARD_TYPE_LICHEERV_NANO)
+
+#ifdef BSP_USING_SPI0
+static const char *pinname_whitelist_spi0_sck[] = {
+    NULL,
+};
+static const char *pinname_whitelist_spi0_sdo[] = {
+    NULL,
+};
+static const char *pinname_whitelist_spi0_sdi[] = {
+    NULL,
+};
+static const char *pinname_whitelist_spi0_cs[] = {
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_SPI1
+static const char *pinname_whitelist_spi1_sck[] = {
+    "EMMC_CLK",
+    NULL,
+};
+static const char *pinname_whitelist_spi1_sdo[] = {
+    "EMMC_DAT_0",
+    NULL,
+};
+static const char *pinname_whitelist_spi1_sdi[] = {
+    "EMMC_CMD",
+    NULL,
+};
+static const char *pinname_whitelist_spi1_cs[] = {
+    "EMMC_DAT_1",
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_SPI2
+static const char *pinname_whitelist_spi2_sck[] = {
+    "SD1_CLK",
+    NULL,
+};
+static const char *pinname_whitelist_spi2_sdo[] = {
+    "SD1_CMD",
+    NULL,
+};
+static const char *pinname_whitelist_spi2_sdi[] = {
+    "SD1_D0",
+    NULL,
+};
+static const char *pinname_whitelist_spi2_cs[] = {
+    "SD1_D3",
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_SPI3
+static const char *pinname_whitelist_spi3_sck[] = {
+    NULL,
+};
+static const char *pinname_whitelist_spi3_sdo[] = {
+    NULL,
+};
+static const char *pinname_whitelist_spi3_sdi[] = {
+    NULL,
+};
+static const char *pinname_whitelist_spi3_cs[] = {
+    NULL,
+};
+#endif
+
 #else
     #error "Unsupported board type!"
 #endif

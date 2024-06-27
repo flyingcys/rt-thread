@@ -282,6 +282,79 @@ static const char *pinname_whitelist_pwm15[] = {
 };
 #endif
 
+#elif defined(BOARD_TYPE_LICHEERV_NANO)
+
+#ifdef BSP_USING_PWM0
+static const char *pinname_whitelist_pwm0[] = {
+    "PWR_PWM",
+    NULL,
+};
+static const char *pinname_whitelist_pwm1[] = {
+    NULL,
+};
+static const char *pinname_whitelist_pwm2[] = {
+    NULL,
+};
+static const char *pinname_whitelist_pwm3[] = {
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_PWM1
+static const char *pinname_whitelist_pwm4[] = {
+    "SD1_D3",
+    "UART0_TX",
+    NULL,
+};
+static const char *pinname_whitelist_pwm5[] = {
+    "SD1_D2",
+    "UART0_RX",
+    NULL,
+};
+static const char *pinname_whitelist_pwm6[] = {
+    "SD1_D1",
+    "JTAG_CPU_TCK",
+    NULL,
+};
+static const char *pinname_whitelist_pwm7[] = {
+    "SD1_D0",
+    "JTAG_CPU_TMS",
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_PWM2
+static const char *pinname_whitelist_pwm8[] = {
+    "SD1_CMD",
+    NULL,
+};
+static const char *pinname_whitelist_pwm9[] = {
+    "SD1_CLK",
+    NULL,
+};
+static const char *pinname_whitelist_pwm10[] = {
+    NULL,
+};
+static const char *pinname_whitelist_pwm11[] = {
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_PWM3
+static const char *pinname_whitelist_pwm12[] = {
+    NULL,
+};
+static const char *pinname_whitelist_pwm13[] = {
+    NULL,
+};
+static const char *pinname_whitelist_pwm14[] = {
+    NULL,
+};
+static const char *pinname_whitelist_pwm15[] = {
+    NULL,
+};
+#endif
+
 #else
     #error "Unsupported board type!"
 #endif

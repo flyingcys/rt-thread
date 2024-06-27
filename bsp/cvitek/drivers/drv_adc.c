@@ -171,6 +171,41 @@ static const char *pinname_whitelist_adc3_nodie[] = {
 };
 #endif
 
+#elif defined(BOARD_TYPE_LICHEERV_NANO)
+
+/*
+ * sg2002 supports
+ * - adc1 for active domain
+ * - adc1/adc2/adc3 for no-die domain
+ * 
+ * FIXME: currnet adc driver only support adc1 in active domain
+ */
+
+#ifdef BSP_USING_ADC_ACTIVE
+static const char *pinname_whitelist_adc1_active[] = {
+    "ADC1",
+    NULL,
+};
+static const char *pinname_whitelist_adc2_active[] = {
+    NULL,
+};
+static const char *pinname_whitelist_adc3_active[] = {
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_ADC_NODIE
+static const char *pinname_whitelist_adc1_nodie[] = {
+    NULL,
+};
+static const char *pinname_whitelist_adc2_nodie[] = {
+    NULL,
+};
+static const char *pinname_whitelist_adc3_nodie[] = {
+    NULL,
+};
+#endif
+
 #else
     #error "Unsupported board type!"
 #endif
