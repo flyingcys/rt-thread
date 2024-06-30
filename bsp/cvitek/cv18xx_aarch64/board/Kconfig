@@ -48,6 +48,10 @@ menu "General Drivers Configuration"
             bool "Enable UART 4"
             default n
 
+            config UART_IRQ_BASE
+                int
+                default 60
+
         endif
         
     config BSP_USING_ADC
