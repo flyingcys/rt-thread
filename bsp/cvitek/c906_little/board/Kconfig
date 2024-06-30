@@ -295,6 +295,40 @@ menu "General Drivers Configuration"
                 default n
         endif
 
+    menuconfig BSP_USING_HWTIMER
+        bool "Enable HWTIMER"
+        default n
+        select RT_USING_HWTIMER
+        if BSP_USING_HWTIMER
+            config BSP_USING_TIMER4
+                bool "Enable HWTIMER4"
+                default n
+
+            config BSP_USING_TIMER5
+                bool "Enable HWTIMER5"
+                default n
+
+            config BSP_USING_TIMER6
+                bool "Enable HWTIMER6"
+                default n
+
+            config BSP_USING_TIMER7
+                bool "Enable HWTIMER7"
+                default n
+
+            if SOC_TYPE_CV180X
+                config TIMER_IRQ_BASE
+                    int
+                    default 51
+            endif
+
+            if SOC_TYPE_SG2002
+                config TIMER_IRQ_BASE
+                    int
+                    default 55
+            endif
+        endif
+
     menuconfig BSP_USING_PWM
         bool "Using PWM"
         select RT_USING_PWM
