@@ -81,6 +81,7 @@ Board Type (milkv-duo)  --->
     ( ) milkv-duo-spinor
     (X) milkv-duo256m
     ( ) milkv-duo256m-spinor
+    ( ) milkv-duos
 ```
 
 It will automatically download relevant scripts to the ~/.env directory, then execute:
