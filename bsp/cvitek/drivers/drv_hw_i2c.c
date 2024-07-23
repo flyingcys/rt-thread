@@ -543,6 +543,79 @@ static const char *pinname_whitelist_i2c4_sda[] = {
 };
 #endif
 
+#elif defined(BOARD_TYPE_LICHEERV_NANO)
+
+#ifdef BSP_USING_I2C0
+static const char *pinname_whitelist_i2c0_scl[] = {
+    "IIC0_SCL",
+    NULL,
+};
+static const char *pinname_whitelist_i2c0_sda[] = {
+    "IIC0_SDA",
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_I2C1
+static const char *pinname_whitelist_i2c1_scl[] = {
+    "SD1_D3",
+    "SD1_D2",
+    "PAD_ETH_TXP",
+    "PAD_MIPIRX4P",
+    "PAD_MIPIRX0N",
+    "PAD_MIPI_TXP2",
+    "MUX_SPI1_MOSI",
+    NULL,
+};
+static const char *pinname_whitelist_i2c1_sda[] = {
+    "SD1_D0",
+    "SD1_D1",
+    "PAD_ETH_TXM",
+    "PAD_MIPIRX4N",
+    "PAD_MIPIRX1P",
+    "PAD_MIPI_TXM2",
+    "MUX_SPI1_MISO",
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_I2C2
+static const char *pinname_whitelist_i2c2_scl[] = {
+    "PAD_MIPI_TXP1",
+    "PWR_GPIO1",
+    NULL,
+};
+static const char *pinname_whitelist_i2c2_sda[] = {
+    "PAD_MIPI_TXM1",
+    "PWR_GPIO2",
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_I2C3
+static const char *pinname_whitelist_i2c3_scl[] = {
+    "SD1_CMD",
+    NULL,
+};
+static const char *pinname_whitelist_i2c3_sda[] = {
+    "SD1_CLK",
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_I2C4
+static const char *pinname_whitelist_i2c4_scl[] = {
+    "PWR_WAKEUP0",
+    "PAD_MIPIRX2N",
+    NULL,
+};
+static const char *pinname_whitelist_i2c4_sda[] = {
+    "PWR_BUTTON1",
+    "PAD_MIPIRX2P",
+    NULL,
+};
+#endif
+
 #else
     #error "Unsupported board type!"
 #endif

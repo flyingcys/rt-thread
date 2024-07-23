@@ -357,6 +357,67 @@ static const char *pinname_whitelist_uart4_tx[] = {
 };
 #endif
 
+#elif defined(BOARD_TYPE_LICHEERV_NANO)
+
+#ifdef BSP_USING_UART0
+static const char *pinname_whitelist_uart0_rx[] = {
+    "UART0_RX",
+    NULL,
+};
+static const char *pinname_whitelist_uart0_tx[] = {
+    "UART0_TX",
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_UART1
+static const char *pinname_whitelist_uart1_rx[] = {
+    "JTAG_CPU_TCK",
+    "IIC0_SDA",
+    "UART0_RX",
+    NULL,
+};
+static const char *pinname_whitelist_uart1_tx[] = {
+    "JTAG_CPU_TMS",
+    "IIC0_SCL",
+    "UART0_TX",
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_UART2
+static const char *pinname_whitelist_uart2_rx[] = {
+    "IIC0_SDA",
+    "SD1_D1",
+    NULL,
+};
+static const char *pinname_whitelist_uart2_tx[] = {
+    "IIC0_SCL",
+    "SD1_D2",
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_UART3
+static const char *pinname_whitelist_uart3_rx[] = {
+    "SD1_D1",
+    NULL,
+};
+static const char *pinname_whitelist_uart3_tx[] = {
+    "SD1_D2",
+    NULL,
+};
+#endif
+
+#ifdef BSP_USING_UART4
+static const char *pinname_whitelist_uart4_rx[] = {
+    NULL,
+};
+static const char *pinname_whitelist_uart4_tx[] = {
+    NULL,
+};
+#endif
+
 #else
     #error "Unsupported board type!"
 #endif
