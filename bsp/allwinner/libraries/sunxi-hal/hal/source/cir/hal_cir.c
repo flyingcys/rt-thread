@@ -31,7 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <hal_clk.h>
 #include <hal_gpio.h>
 #include <hal_reset.h>

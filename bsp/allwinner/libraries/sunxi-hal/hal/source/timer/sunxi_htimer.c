@@ -34,7 +34,7 @@
 #include "aw_common.h"
 #include <stdlib.h>
 #include <io.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 
 static struct sunxi_htimer *g_htimer;
 

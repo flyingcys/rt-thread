@@ -33,7 +33,7 @@
 #define __HAL_HTIMER_H__
 #include <stdint.h>
 #include <stdio.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 //#include <stdbool.h>
 
 

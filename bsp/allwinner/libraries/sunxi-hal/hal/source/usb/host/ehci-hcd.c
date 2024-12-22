@@ -25,7 +25,7 @@
 #include <hal_osal.h>
 //#include <aw_types.h>
 #include <aw_list.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <usb_gen_hub.h>
 #include <sunxi_hal_common.h>
 

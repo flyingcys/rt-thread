@@ -46,7 +46,7 @@ extern "C" {
 
 /* sunxi gpio irq*/
 #if defined(CONFIG_CORE_DSP0) /* DSP */
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #define SUNXI_IRQ_GPIOB (RINTC_IRQ_MASK | 40)
 #define SUNXI_IRQ_GPIOC (RINTC_IRQ_MASK | 42)
 #define SUNXI_IRQ_GPIOD (RINTC_IRQ_MASK | 44)

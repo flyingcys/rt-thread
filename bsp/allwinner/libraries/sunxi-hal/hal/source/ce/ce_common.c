@@ -31,7 +31,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <hal_cache.h>
 #include <hal_mem.h>
 #include <hal_osal.h>

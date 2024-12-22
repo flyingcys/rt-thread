@@ -17,7 +17,7 @@
  * ===========================================================================================
  */
 
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <rtthread.h>
 #include <kconfig.h>
 #include <rthw.h>

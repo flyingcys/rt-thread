@@ -34,7 +34,7 @@
 #define SUXNI_HAL_THERMAL_H
 
 #include "sunxi_hal_common.h"
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <stdio.h>
 
 #ifdef __cplusplus

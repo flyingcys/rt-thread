@@ -7,7 +7,7 @@
 #include <hal_dma.h>
 #include <hal_cache.h>
 #include <sunxi_hal_regulator.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 
 #ifdef CONFIG_RTTKERNEL
 #include <hal_cfg.h>

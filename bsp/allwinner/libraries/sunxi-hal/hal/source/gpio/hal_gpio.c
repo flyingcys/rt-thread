@@ -38,7 +38,7 @@
 #include <hal_log.h>
 #include "gpio.h"
 #include <sunxi_hal_common.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 
 static const struct gpio_desc **g_gpio_desc = NULL;
 

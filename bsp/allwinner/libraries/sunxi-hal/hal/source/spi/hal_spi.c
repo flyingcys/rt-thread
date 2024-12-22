@@ -36,7 +36,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <sunxi_hal_spi.h>
 #include <hal_cache.h>
 #include <hal_mem.h>

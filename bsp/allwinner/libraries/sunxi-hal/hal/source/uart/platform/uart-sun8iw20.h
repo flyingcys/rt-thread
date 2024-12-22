@@ -37,7 +37,7 @@
 
 /* config for DSP */
 #if defined(CONFIG_CORE_DSP0)
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 
 #define SUNXI_CLK_UART0 CLK_BUS_UART0
 #define SUNXI_RST_UART0 RST_BUS_UART0

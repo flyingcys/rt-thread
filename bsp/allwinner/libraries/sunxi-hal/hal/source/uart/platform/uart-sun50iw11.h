@@ -35,7 +35,7 @@
 
 /* config for DSP */
 #if defined(CONFIG_CORE_DSP0)
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <hal_prcm.h>
 
 #define SUNXI_IRQ_UART0     (RINTC_IRQ_MASK | 10)

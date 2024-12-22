@@ -18,13 +18,12 @@
  */
 
 
-#include <interrupt.h>
 #include <hal_queue.h>
 #include <sunxi_hal_common.h>
 #include "sunxi_hal_eise.h"
 #include <init.h>
 #include <hal_clk.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <log.h>
 #define eise_err(x, arg...) printf("[EISE_ERR] (%s, %d)"x"\n", __func__, __LINE__, ##arg)
 #define eise_warn(x, arg...) printf("[EISE_WARN] (%s, %d)"x"\n", __func__, __LINE__, ##arg)

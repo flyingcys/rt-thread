@@ -40,7 +40,7 @@
 #include <hal_atomic.h>
 #include <hal_clk.h>
 #include <hal_interrupt.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <sunxi_hal_common.h>
 #include <hal_dma.h>
 

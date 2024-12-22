@@ -36,7 +36,7 @@
 #include "hal_interrupt.h"
 #include "sunxi_hal_common.h"
 #include <timer/platform_timer.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <stdio.h>
 #include <hal_osal.h>
 

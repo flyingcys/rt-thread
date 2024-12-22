@@ -19,7 +19,7 @@
 #include "hal_reset.h"
 #include "sunxi_hal_common.h"
 #include <hal_log.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <tpadc/platform_tpadc.h>
 #include <tpadc/common_tpadc.h>
 

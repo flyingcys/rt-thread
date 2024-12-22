@@ -35,7 +35,7 @@
 
 /* config for DSP */
 #if defined(CONFIG_CORE_DSP0)
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <hal_prcm.h>
 
 #define MSGBOX0_CPU_DSP0    0x03003000

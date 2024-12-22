@@ -1,6 +1,6 @@
 #include <sunxi_hal_common.h>
 #include <sunxi_hal_avs.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <stdlib.h>
 #include <stdio.h>
 

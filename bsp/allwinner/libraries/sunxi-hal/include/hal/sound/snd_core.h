@@ -37,7 +37,7 @@
 #include <errno.h>
 #include <hal_sem.h>
 #include <hal_mutex.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <hal_cache.h>
 #include <sunxi_hal_common.h>
 #include "aw_list.h"

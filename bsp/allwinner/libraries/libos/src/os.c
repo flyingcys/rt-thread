@@ -93,7 +93,7 @@ unsigned long awos_arch_phys_to_virt(unsigned long physaddr)
     return physaddr + PV_OFFSET;
 }
 
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 void enable_irq(unsigned int irq)
 {
     rt_hw_interrupt_umask(irq);

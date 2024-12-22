@@ -18,7 +18,7 @@
 #include "hal_clk.h"
 #include "sunxi_hal_common.h"
 #include <hal_log.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <gpadc/platform_gpadc.h>
 #include <gpadc/common_gpadc.h>
 

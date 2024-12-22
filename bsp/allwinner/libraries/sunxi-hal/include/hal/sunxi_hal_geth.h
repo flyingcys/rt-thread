@@ -42,7 +42,7 @@ extern "C"
 #include <netif/ethernetif.h>
 #include <sunxi_hal_common.h>
 #include <sunxi_hal_phy.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <hal_gpio.h>
 
 #define CONFIG_DRIVERS_GETH_DEBUG

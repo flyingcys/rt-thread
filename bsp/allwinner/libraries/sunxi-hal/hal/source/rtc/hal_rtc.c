@@ -17,7 +17,7 @@
 #include <hal_thread.h>
 #include <hal_timer.h>
 #include <stdlib.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <rtc/rtc.h>
 #include <sunxi_hal_rtc.h>
 #include <hal_log.h>

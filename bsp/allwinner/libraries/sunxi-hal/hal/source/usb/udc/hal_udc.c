@@ -34,7 +34,7 @@
 
 //#include <arch/mach/platform.h>
 //#include <arch/mach/irqs.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 //#include <io.h>
 #include <sunxi_hal_common.h>
 #include <usb/ch9.h>

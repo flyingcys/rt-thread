@@ -33,7 +33,7 @@
 #define __HAL_LRADC_H__
 
 #include <sunxi_hal_common.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <hal_interrupt.h>
 #include <lradc/platform_lradc.h>
 #include <lradc/common_lradc.h>

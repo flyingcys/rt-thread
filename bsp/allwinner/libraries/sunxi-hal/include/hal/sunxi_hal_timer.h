@@ -34,7 +34,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <timer/platform_timer.h>
 
 #ifdef __cplusplus

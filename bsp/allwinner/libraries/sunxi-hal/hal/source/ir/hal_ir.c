@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <hal_clk.h>
 #include <sunxi_hal_ir.h>
 #include <init.h>

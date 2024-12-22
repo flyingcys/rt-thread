@@ -37,7 +37,7 @@
 #include <sound/snd_io.h>
 #include <sound/snd_misc.h>
 #include <hal_osal.h>
-#include <interrupt.h>
+#include <sunxi_interrupt.h>
 #include <hal_sem.h>
 #include <hal_mem.h>
 #include <hal_mutex.h>
