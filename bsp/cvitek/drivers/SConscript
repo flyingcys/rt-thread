@@ -6,6 +6,7 @@ src     = Split('''
     drv_por.c
     drv_gpio.c
     drv_pinmux.c
+    drv_dma.c
 ''')
 CPPDEFINES = []
 
@@ -57,12 +58,20 @@ if GetDepend('BSP_USING_ETH'):
     CPPPATH += [cwd + r'/libraries/eth']
 
 CPPDEFINES += ['-DCONFIG_64BIT']
+CPPDEFINES += ['-DCONFIG_USE_AOS_KERNEL_INC']
 
 if GetDepend('BSP_USING_RTC'):
     src += ['drv_rtc.c']
 
 if GetDepend('BSP_USING_TIMER'):
     src += ['drv_timer.c']
+                                            
+src += Split('''
+    libraries/dma/cvi_dma.c
+    libraries/dma/hal_dma.c
+    libraries/dma/sysdma_remap.c
+''')
+CPPPATH += [cwd + r'/libraries/dma']
 
 group = DefineGroup('drivers', src, depend = [''], CPPDEFINES = CPPDEFINES, CPPPATH = CPPPATH)
 

@@ -16,6 +16,8 @@
 #include "board.h"
 #include "drv_spi.h"
 
+#include "drv_dma.h"
+
 #include "drv_pinmux.h"
 #include "drv_ioremap.h"
 
@@ -28,18 +30,20 @@ struct _device_spi
     struct rt_spi_bus spi_bus;
     struct dw_spi dws;
     char *device_name;
+    csi_dma_ch_t        *tx_dma;
+    csi_dma_ch_t        *rx_dma;
 };
 
 static struct _device_spi _spi_obj[] =
 {
-#ifdef BSP_USING_SPI0
+// #ifdef BSP_USING_SPI0
     {
         .dws.regs = (void *)DW_SPI0_BASE,
         .dws.irq = DW_SPI0_IRQn,
         .dws.index = 0,
         .device_name = "spi0",
     },
-#endif /* BSP_USING_SPI0 */
+// #endif /* BSP_USING_SPI0 */
 #ifdef BSP_USING_SPI1
     {
         .dws.regs = (void *)DW_SPI1_BASE,
@@ -137,6 +141,102 @@ static rt_err_t spi_configure(struct rt_spi_device *device, struct rt_spi_config
     return RT_EOK;
 }
 
+rt_err_t set_dw_config(struct dw_dma_cfg *dw_cfg, csi_dma_ch_config_t *config)
+{
+	if(config->src_reload_en || config->dst_reload_en){
+		dma_err("src/dst reload_en not supported\r\n");
+		return -RT_ERROR;
+	}
+
+	if(config->half_int_en){
+		dma_err("half_int_en not supported\r\n");
+		return -RT_ERROR;
+	}
+
+	if(config->src_inc == DMA_ADDR_DEC || config->dst_inc == DMA_ADDR_DEC){
+		dma_err("DMA_ADDR_DEC not supported\r\n");
+		return -RT_ERROR;
+	}
+
+	dw_cfg->dst_inc = (cvi_dma_addr_inc_t)config->dst_inc;
+	dw_cfg->dst_tw = (cvi_dma_data_width_t)config->dst_tw;
+	dw_cfg->group_len = config->group_len;
+	dw_cfg->handshake = config->handshake;
+	dw_cfg->src_inc = (cvi_dma_addr_inc_t)config->src_inc;
+	dw_cfg->src_tw = (cvi_dma_data_width_t)config->src_tw;
+	dw_cfg->trans_dir = (cvi_dma_trans_dir_t)config->trans_dir;
+
+	return RT_EOK;
+}
+rt_err_t csi_dma_ch_config(csi_dma_ch_t *dma_ch, csi_dma_ch_config_t *config)
+{
+	rt_err_t ret = RT_EOK;
+	struct dw_dma_cfg dw_cfg;
+
+	memset(&dw_cfg, 0, sizeof(dw_cfg));
+
+	if (set_dw_config(&dw_cfg, config) != RT_EOK)
+		return ret;
+
+	cvi_dma_ch_config(dma_ch->ctrl_id, dma_ch->ch_id, &dw_cfg);
+
+	return ret;
+}
+static int dma_transfer(struct dw_spi *dws)
+{
+	csi_dma_ch_config_t tx_config, rx_config;
+	uint8_t             dma_data_width;
+
+	memset(&tx_config, 0, sizeof(csi_dma_ch_config_t));
+	memset(&rx_config, 0, sizeof(csi_dma_ch_config_t));
+	// struct dw_spi *dws = (struct dw_spi *)spi->priv;
+
+	if (dws->n_bytes == 2)
+		dma_data_width = DMA_DATA_WIDTH_16_BITS;
+	else
+		dma_data_width = DMA_DATA_WIDTH_8_BITS;
+
+	if (dws->tx) {
+		/* configure tx dma channel */
+		tx_config.src_tw = DMA_DATA_WIDTH_32_BITS;
+		tx_config.dst_tw = dma_data_width;
+		tx_config.src_inc = DMA_ADDR_INC;
+		tx_config.dst_inc = DMA_ADDR_CONSTANT;
+		tx_config.group_len = 8;
+		tx_config.trans_dir = DMA_MEM2PERH;
+		tx_config.handshake = 5; /* dma channel 5 */
+		csi_dma_ch_config(spi->tx_dma, &tx_config);
+		dw_writel(dws, CVI_DW_SPI_DMATDLR, 8);
+		spi_enable_dma(dws, 1, 1);
+		soc_dcache_clean_invalid_range((unsigned long)dws->tx, dws->tx_len);
+	}
+
+	if (dws->rx) {
+		/* configure rx dma channel */
+		rx_config.src_tw = dma_data_width;
+		rx_config.dst_tw = DMA_DATA_WIDTH_32_BITS;
+		rx_config.src_inc = DMA_ADDR_CONSTANT;
+		rx_config.dst_inc = DMA_ADDR_INC;
+		rx_config.group_len = 8;
+		rx_config.trans_dir = DMA_PERH2MEM;
+		rx_config.handshake = 4;
+		csi_dma_ch_config(spi->rx_dma, &rx_config);
+		dw_writel(dws, CVI_DW_SPI_DMARDLR, 7);
+		spi_enable_dma(dws, 0, 1);
+		soc_dcache_clean_invalid_range((unsigned long)dws->rx, dws->rx_len);
+	}
+	/* rx must be started before tx due to spi instinct */
+	if (dws->rx) {
+		csi_dma_ch_start(spi->rx_dma, (void *)(dws->regs + CVI_DW_SPI_DR), dws->rx, dws->rx_len);
+	}
+
+	if (dws->tx) {
+		csi_dma_ch_start(spi->tx_dma, (void *)dws->tx, (void *)(dws->regs + CVI_DW_SPI_DR), dws->tx_len);
+	}
+
+	return 0;
+}
+
 static rt_err_t dw_spi_transfer_one(struct dw_spi *dws, const void *tx_buf, void *rx_buf, uint32_t len, enum transfer_type  tran_type)
 {
     uint8_t imask = 0;
@@ -181,6 +281,10 @@ static rt_err_t dw_spi_transfer_one(struct dw_spi *dws, const void *tx_buf, void
         if (poll_transfer(dws) < 0)
             return -RT_ERROR;
     }
+    else if (tran_type == DMA_TRAN)
+    {
+		dma_transfer(dws);
+	}
     else
     {
         return -RT_ENOSYS;
@@ -335,7 +439,7 @@ int rt_hw_spi_init(void)
 
     for (rt_size_t i = 0; i < sizeof(_spi_obj) / sizeof(struct _device_spi); i++)
     {
-        _spi_obj[i].base_addr = (rt_ubase_t)DRV_IOREMAP((void *)_spi_obj[i].base_addr, 0x1000);
+        _spi_obj[i].dws.regs = (rt_ubase_t)DRV_IOREMAP((void *)_spi_obj[i].dws.regs, 0x1000);
 
         _spi_obj[i].spi_bus.parent.user_data = (void *)&_spi_obj[i];
         ret = rt_spi_bus_register(&_spi_obj[i].spi_bus, _spi_obj[i].device_name, &_spi_ops);
