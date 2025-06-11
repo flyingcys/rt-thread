@@ -493,6 +493,10 @@ static rt_err_t _thread_detach(rt_thread_t thread)
 
     _thread_detach_from_mutex(thread);
 
+    /* Clear sensitive data to prevent use-after-free vulnerabilities */
+    thread->entry = RT_NULL;
+    thread->parameter = RT_NULL;
+    
     /* insert to defunct thread list */
     rt_thread_defunct_enqueue(thread);
 
@@ -529,6 +533,14 @@ rt_thread_t rt_thread_create(const char *name,
 {
     /* parameter check */
     RT_ASSERT(tick != 0);
+    RT_ASSERT(entry != RT_NULL);
+    
+    /* Check for reasonable stack size to prevent excessive memory allocation */
+    if (stack_size < 256 || stack_size > (1024 * 1024))  /* 256B to 1MB */
+    {
+        LOG_E("Invalid stack size: %d bytes", stack_size);
+        return RT_NULL;
+    }
 
     struct rt_thread *thread;
     void *stack_start;
@@ -538,7 +550,14 @@ rt_thread_t rt_thread_create(const char *name,
     if (thread == RT_NULL)
         return RT_NULL;
 
-    stack_start = (void *)RT_KERNEL_MALLOC(stack_size);
+    /* Add extra space for stack overflow detection in debug mode */
+#ifdef RT_DEBUG
+    rt_uint32_t actual_stack_size = stack_size + 32; /* Add guard area */
+#else
+    rt_uint32_t actual_stack_size = stack_size;
+#endif
+
+    stack_start = (void *)RT_KERNEL_MALLOC(actual_stack_size);
     if (stack_start == RT_NULL)
     {
         /* allocate stack failure */
@@ -546,6 +565,11 @@ rt_thread_t rt_thread_create(const char *name,
 
         return RT_NULL;
     }
+
+#ifdef RT_DEBUG
+    /* Initialize stack guard pattern */
+    rt_memset((rt_uint8_t *)stack_start + stack_size, 0xCC, 32);
+#endif
 
     _thread_init(thread,
                  name,

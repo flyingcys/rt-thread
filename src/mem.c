@@ -125,34 +125,50 @@ static void plug_holes(struct rt_small_mem *m, struct rt_small_mem_item *mem)
     RT_ASSERT((rt_uint8_t *)mem < (rt_uint8_t *)m->heap_end);
 
     /* plug hole forward */
-    nmem = (struct rt_small_mem_item *)&m->heap_ptr[mem->next];
-    if (mem != nmem && !MEM_ISUSED(nmem) &&
-        (rt_uint8_t *)nmem != (rt_uint8_t *)m->heap_end)
+    /* Add boundary check to prevent array out-of-bounds access */
+    if (mem->next < m->mem_size_aligned + SIZEOF_STRUCT_MEM)
     {
-        /* if mem->next is unused and not end of m->heap_ptr,
-         * combine mem and mem->next
-         */
-        if (m->lfree == nmem)
+        nmem = (struct rt_small_mem_item *)&m->heap_ptr[mem->next];
+        if (mem != nmem && !MEM_ISUSED(nmem) &&
+            (rt_uint8_t *)nmem != (rt_uint8_t *)m->heap_end)
         {
-            m->lfree = mem;
+            /* if mem->next is unused and not end of m->heap_ptr,
+             * combine mem and mem->next
+             */
+            if (m->lfree == nmem)
+            {
+                m->lfree = mem;
+            }
+            nmem->pool_ptr = 0;
+            mem->next = nmem->next;
+            /* Add boundary check for nmem->next before accessing */
+            if (nmem->next < m->mem_size_aligned + SIZEOF_STRUCT_MEM)
+            {
+                ((struct rt_small_mem_item *)&m->heap_ptr[nmem->next])->prev = (rt_uint8_t *)mem - m->heap_ptr;
+            }
         }
-        nmem->pool_ptr = 0;
-        mem->next = nmem->next;
-        ((struct rt_small_mem_item *)&m->heap_ptr[nmem->next])->prev = (rt_uint8_t *)mem - m->heap_ptr;
     }
 
     /* plug hole backward */
-    pmem = (struct rt_small_mem_item *)&m->heap_ptr[mem->prev];
-    if (pmem != mem && !MEM_ISUSED(pmem))
+    /* Add boundary check to prevent array out-of-bounds access */
+    if (mem->prev < m->mem_size_aligned + SIZEOF_STRUCT_MEM)
     {
-        /* if mem->prev is unused, combine mem and mem->prev */
-        if (m->lfree == mem)
+        pmem = (struct rt_small_mem_item *)&m->heap_ptr[mem->prev];
+        if (pmem != mem && !MEM_ISUSED(pmem))
         {
-            m->lfree = pmem;
+            /* if mem->prev is unused, combine mem and mem->prev */
+            if (m->lfree == mem)
+            {
+                m->lfree = pmem;
+            }
+            mem->pool_ptr = 0;
+            pmem->next = mem->next;
+            /* Add boundary check for mem->next before accessing */
+            if (mem->next < m->mem_size_aligned + SIZEOF_STRUCT_MEM)
+            {
+                ((struct rt_small_mem_item *)&m->heap_ptr[mem->next])->prev = (rt_uint8_t *)pmem - m->heap_ptr;
+            }
         }
-        mem->pool_ptr = 0;
-        pmem->next = mem->next;
-        ((struct rt_small_mem_item *)&m->heap_ptr[mem->next])->prev = (rt_uint8_t *)pmem - m->heap_ptr;
     }
 }
 
@@ -296,10 +312,21 @@ void *rt_smem_alloc(rt_smem_t m, rt_size_t size)
         return RT_NULL;
     }
 
+    /* Add loop counter to prevent infinite loops caused by corrupted memory list */
+    rt_size_t loop_count = 0;
+    const rt_size_t max_loops = small_mem->mem_size_aligned / MIN_SIZE_ALIGNED + 1;
+    
     for (ptr = (rt_uint8_t *)small_mem->lfree - small_mem->heap_ptr;
-         ptr <= small_mem->mem_size_aligned - size;
-         ptr = ((struct rt_small_mem_item *)&small_mem->heap_ptr[ptr])->next)
+         ptr <= small_mem->mem_size_aligned - size && loop_count < max_loops;
+         ptr = ((struct rt_small_mem_item *)&small_mem->heap_ptr[ptr])->next, loop_count++)
     {
+        /* Add boundary check before accessing heap_ptr array */
+        if (ptr >= small_mem->mem_size_aligned + SIZEOF_STRUCT_MEM)
+        {
+            LOG_E("Memory corruption detected: ptr=%d exceeds heap boundary", ptr);
+            break;
+        }
+        
         mem = (struct rt_small_mem_item *)&small_mem->heap_ptr[ptr];
 
         if ((!MEM_ISUSED(mem)) && (mem->next - (ptr + SIZEOF_STRUCT_MEM)) >= size)

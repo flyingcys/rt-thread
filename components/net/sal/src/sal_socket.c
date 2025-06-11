@@ -1459,7 +1459,10 @@ int sal_ioctlsocket(int socket, long cmd, void *arg)
                 struct sal_ifreq sal_ifreq_temp;
                 count_size++;
                 netdev = rt_list_entry(node, struct netdev, list);
-                rt_strcpy(sal_ifreq_temp.ifr_ifrn.ifrn_name, netdev->name);
+                /* Use safe string copy to prevent buffer overflow */
+                rt_strncpy(sal_ifreq_temp.ifr_ifrn.ifrn_name, netdev->name, 
+                          sizeof(sal_ifreq_temp.ifr_ifrn.ifrn_name) - 1);
+                sal_ifreq_temp.ifr_ifrn.ifrn_name[sizeof(sal_ifreq_temp.ifr_ifrn.ifrn_name) - 1] = '\0';
                 rt_memcpy(ifconf_tmp->ifc_ifcu.ifcu_buf, &sal_ifreq_temp, sizeof(struct sal_ifreq));
                 ifconf_tmp->ifc_ifcu.ifcu_buf += sizeof(struct sal_ifreq);
             }
