@@ -1,0 +1,19 @@
+from building import *
+
+cwd     = GetCurrentDir()
+src = Glob('*.c') + Glob('*.cpp')
+CPPPATH = [cwd + '/include']
+
+group = DefineGroup('gmac', src, depend = ['BSP_USING_GMAC'], CPPPATH = CPPPATH)
+
+objs = [group]
+
+list = os.listdir(cwd)
+
+if GetDepend('DWC_GMAC'):
+     objs = objs + SConscript(os.path.join('dwc', 'SConscript'))
+
+if GetDepend('RTL_PCIE_GMAC'):
+     objs = objs + SConscript(os.path.join('rtl', 'SConscript'))
+
+Return('objs')

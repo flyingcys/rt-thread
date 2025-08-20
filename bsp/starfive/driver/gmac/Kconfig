@@ -1,0 +1,15 @@
+menu "Ethernet Drivers Configuration"
+
+config DWC_GMAC
+    bool "Enable DWC gmac driver"
+    default n
+    select BSP_USING_GMAC
+
+config RTL_PCIE_GMAC
+    bool "Enable realtek pcie gmac driver"
+    default n
+    select BSP_USING_GMAC
+    select BSP_USING_PCIE
+
+endmenu
+
